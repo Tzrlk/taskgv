@@ -78,7 +78,7 @@ def get_json(query):
 
 def call_dot(instr):
     'call dot, returning stdout and stdout'
-    dot = Popen('dot -Tpng'.split(), stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    dot = Popen('dot -Tsvg'.split(), stdout=PIPE, stderr=PIPE, stdin=PIPE)
     return dot.communicate(instr.encode('utf-8'))
 
 if __name__ == '__main__':
@@ -170,19 +170,19 @@ if __name__ == '__main__':
     lines.append(FOOTER)
 
     print ('Calling dot')
-    png, err = call_dot('\n'.join(lines))
+    svg, err = call_dot('\n'.join(lines))
     if err.decode("utf-8") != '':
         print ('Error calling dot:')
         print (err.decode("utf-8"))
         quit()
 
-    print ('Writing to /tmp/taskgv.png')
-    with open('/tmp/taskgv.png', 'wb') as f:
-        f.write(png)
+    print ('Writing to /tmp/taskgv.svg')
+    with open('/tmp/taskgv.svg', 'wb') as f:
+        f.write(svg)
 
 # Use `xdg-open` if it's present, `open` otherwise.
 display_command = spawn.find_executable("xdg-open")
 if display_command == None:
     display_command = spawn.find_executable("open")
 
-subprocess.call(display_command + " /tmp/taskgv.png", shell = True)
+subprocess.call(display_command + " /tmp/taskgv.svg", shell = True)
