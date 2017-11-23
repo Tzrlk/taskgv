@@ -60,9 +60,6 @@ HEADER = "digraph  dependencies { layout=neato;   splines=true; overlap=scalexy;
 
 FOOTER = "}"
 
-JSON_START = '['
-JSON_END = ']'
-
 validUuids = list()
 
 def call_taskwarrior(cmd):
@@ -77,7 +74,7 @@ def get_json(query):
         print ('Error calling taskwarrior:')
         print (err.decode("utf-8"))
         quit()
-    return json.loads(JSON_START + result + JSON_END)
+    return json.loads(result.decode("utf-8"))
 
 def call_dot(instr):
     'call dot, returning stdout and stdout'
